@@ -1,0 +1,19 @@
+name: build
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: windows-2019
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v1.0.2
+    - run: MSBuild.exe $Env:GITHUB_WORKSPACE\rr_decoder\rr_decoder.csproj -p:Configuration=Release
+    - uses: actions/upload-artifact@v1.0.0
+      with:
+          name: rr_decoder.exe
+          path: rr_decoder\bin\Release\rr_decoder.exe
